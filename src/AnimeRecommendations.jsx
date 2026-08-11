@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { getAnimeRecommendations as fetchAnimeRecommendations } from "./api";
 import {
   RiArrowDropDownLine,
   RiArrowDropUpLine,
@@ -19,9 +19,7 @@ const AnimeRecommendations = ({ mal_id = 0, anime_url = "" }) => {
   const getAnimeRecommendations = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        `https://api.jikan.moe/v4/anime/${mal_id}/recommendations`
-      );
+      const response = await fetchAnimeRecommendations(mal_id);
       setAnimeRecommendations(response.data.data);
       setShowThis(true);
       setError(false);

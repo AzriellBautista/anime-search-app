@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { getAnimeStatistics as fetchAnimeStatistics } from "./api";
 import {
   RiArrowDropDownLine,
   RiArrowDropUpLine,
@@ -16,9 +16,7 @@ const AnimeStatistics = ({ mal_id = 1 }) => {
   const getAnimeStatistics = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        `https://api.jikan.moe/v4/anime/${mal_id}/statistics`
-      );
+      const response = await fetchAnimeStatistics(mal_id);
       setAnimeStatistics(response.data.data);
       setShowThis(true);
       setError(false);

@@ -1,15 +1,18 @@
 import React from "react";
 import Select from "react-select";
-import axios from "axios";
+
+import { getAnimeGenres } from "./api";
 
 import {
-  // GenresEnums,
   OrderByEnums,
   RatingEnums,
   SortEnums,
   StatusEnums,
   TypeEnums,
 } from "./AnimeApiEnums";
+
+const GENRES_CACHE_KEY = "genres";
+const GENRES_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 class AnimeForm extends React.Component {
   constructor(props) {
@@ -31,7 +34,6 @@ class AnimeForm extends React.Component {
   }
 
   componentDidMount() {
-    // localStorage.removeItem("genres"); // force update the genres
     this._fetchAnimeGenresFromApiOrLocalStorage();
   }
 
@@ -46,20 +48,26 @@ class AnimeForm extends React.Component {
   }
 
   async _fetchAnimeGenresFromApiOrLocalStorage() {
-    const genres = localStorage.getItem("genres");
+    const cached = JSON.parse(localStorage.getItem(GENRES_CACHE_KEY) || "null");
     let genresOptions;
-    if (genres) {
-      genresOptions = JSON.parse(genres);
+    if (cached && Date.now() - cached.fetchedAt < GENRES_CACHE_TTL_MS) {
+      genresOptions = cached.genres;
       console.log("Loaded genres from local storage.");
     } else {
-      const response = await axios.get("https://api.jikan.moe/v4/genres/anime");
+      const response = await getAnimeGenres();
       genresOptions = response.data?.data.map((genre) => {
         return {
           value: genre.mal_id,
           label: genre.name,
         };
       });
-      localStorage.setItem("genres", JSON.stringify(genresOptions));
+      localStorage.setItem(
+        GENRES_CACHE_KEY,
+        JSON.stringify({
+          genres: genresOptions,
+          fetchedAt: Date.now(),
+        })
+      );
       console.log("Loaded genres from API.");
     }
     this.setState({ genres: genresOptions });

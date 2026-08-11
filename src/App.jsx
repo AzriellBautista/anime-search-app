@@ -1,9 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 
 import AnimeForm from "./AnimeForm";
 import AnimeList from "./AnimeList";
-// import AnimeParams from './AnimeParams';
+import { searchAnime as fetchAnime } from "./api";
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -60,10 +59,7 @@ function App() {
       }
     });
 
-    await axios
-      .get("https://api.jikan.moe/v4/anime", {
-        params,
-      })
+    await fetchAnime(params)
       .then((res) => {
         setQuery(res.config.params.q);
         setType(res.config.params.type);
@@ -107,12 +103,12 @@ function App() {
           Welcome to my personal project - a React application wrapper for the
           anime API provided by{" "}
           <a
-            href="https://jikan.moe/"
+            href="https://tenrai.org/"
             target="_blank"
             className="underline underline-offset-4"
             rel="noreferrer"
           >
-            Jikan
+            Tenrai
           </a>
           , an unofficial{" "}
           <a
@@ -125,15 +121,15 @@ function App() {
           </a>
           {" "}API. As an avid anime fan, I wanted to create a platform that allows
           me to explore and enjoy my favorite shows with ease. This application
-          uses Jikan's{" "}
+          uses Tenrai's{" "}
           <a
-            href="https://docs.api.jikan.moe/"
+            href="https://api.tenrai.org/documentation"
             referrerPolicy="no-referrer"
             target="_blank"
             className="underline underline-offset-4"
             rel="noreferrer"
           >
-            v4 API
+            v1 API
           </a>
           , providing me with real-time access to a wealth of anime information.
           With a primary focus on search functionality and advanced filters,
@@ -145,7 +141,6 @@ function App() {
         </p>
       </div>
       <AnimeForm searchAnime={searchAnime} />
-      {/* <AnimeParams searchParams={ {query, type,genresInclude, genresExclude, status, rating, orderBy, sort} }/> */}
       <AnimeList
         searchResults={searchResults}
         onPageChange={handlePageChange}

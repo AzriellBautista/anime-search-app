@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Anime Search App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React application wrapper for the anime API provided by [Tenrai](https://tenrai.org/), an unofficial [MyAnimeList](https://myanimelist.net/) API. Search and explore your favorite anime titles with rich detail views.
 
-## Available Scripts
+Built with React, Vite, and Tailwind CSS.
+
+## Features
+
+- **Search** with optional filters:
+  - Query (anime title)
+  - Genres to include / exclude (with intersection validation)
+  - Rating, type, and status
+  - Order results by field (MAL ID, title, score, rank, popularity, etc.) and sort direction
+- **Pagination** with jump-to-page controls
+- **Anime detail card** for each result, including:
+  - Information (status, aired, episodes, duration, type, source, rating)
+  - Alternative titles (English, Japanese, synonyms)
+  - Synopsis and background (with expandable long text)
+  - Genres, demographics, and themes
+  - MyAnimeList statistics (score, scored by, rank, popularity, members, favorites)
+  - Lazy-loaded **Characters**, **Pictures**, **Recommendations**, and **Statistics** sections
+  - Direct links to MyAnimeList pages (characters, episodes, videos, stats, reviews, etc.)
+
+## Getting Started
+
+```bash
+npm install
+```
+
+### Available Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode with Vite. Open [http://localhost:5173](http://localhost:5173) to view it in your browser. The page reloads when you make changes.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `dist` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include hashes.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run deploy`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app and deploys the `dist` folder to GitHub Pages using `gh-pages`.
 
-### `npm run eject`
+## API
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+All requests go through the shared axios instance in `src/api.js`, pointed at `https://api.tenrai.org/v1`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Endpoint | Function |
+| --- | --- |
+| `GET /anime` | `searchAnime(params)` — search results with pagination |
+| `GET /genres/anime` | `getAnimeGenres()` — list of anime genres |
+| `GET /anime/{id}/characters` | `getAnimeCharacters(malId)` |
+| `GET /anime/{id}/statistics` | `getAnimeStatistics(malId)` |
+| `GET /anime/{id}/pictures` | `getAnimePictures(malId)` |
+| `GET /anime/{id}/recommendations` | `getAnimeRecommendations(malId)` |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+src/
+├── api.js                 # Shared axios instance and API helper functions
+├── App.jsx                # Root component (state, search handler)
+├── Anime.jsx              # Individual anime detail card
+├── AnimeList.jsx          # Results list + pagination
+├── AnimeForm.jsx          # Search form with filters
+├── AnimePictures.jsx      # Lazy-loaded pictures section
+├── AnimeCharacters.jsx    # Lazy-loaded characters section
+├── AnimeRecommendations.jsx # Lazy-loaded recommendations section
+├── AnimeStatistics.jsx    # Lazy-loaded statistics section
+├── AnimeApiEnums.js       # Shared select options (ratings, types, ordering, etc.)
+└── index.jsx              # Entry point
+```
 
-## Learn More
+## Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The app is configured for GitHub Pages (`homepage` in `package.json` and `base: "./"` in `vite.config.mjs`). Deploy with:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm run deploy
+```

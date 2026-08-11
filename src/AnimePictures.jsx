@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { getAnimePictures as fetchAnimePictures } from "./api";
 import {
   RiArrowDropDownLine,
   RiArrowDropUpLine,
@@ -16,9 +16,7 @@ const AnimePictures = ({ mal_id = 1 }) => {
   const getAnimePictures = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        `https://api.jikan.moe/v4/anime/${mal_id}/pictures`
-      );
+      const response = await fetchAnimePictures(mal_id);
       setAnimePictures(response.data.data);
       setShowThis(true);
       setError(false);
