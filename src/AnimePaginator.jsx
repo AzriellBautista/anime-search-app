@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import {
   RiArrowLeftDoubleLine, // First
   RiArrowLeftSLine, // Previous
@@ -22,8 +20,7 @@ const AnimePaginator = ({ pagination, onPageChange }) => {
   );
 
   const handlePageChange = (page) => {
-    // window.scrollTo({ top: 0, behavior: "smooth", });
-    $("body").animate({ scrollTop: 0 }, "slow");
+    window.scrollTo({ top: 0, behavior: "smooth" });
     onPageChange(page);
   };
 

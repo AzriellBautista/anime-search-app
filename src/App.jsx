@@ -5,8 +5,6 @@ import AnimeForm from "./AnimeForm";
 import AnimeList from "./AnimeList";
 // import AnimeParams from './AnimeParams';
 
-import "./App.css";
-
 function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

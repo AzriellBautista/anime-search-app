@@ -32,7 +32,7 @@ const AnimeList = ({ searchResults, onPageChange, isLoading }) => {
         <div className='flex flex-col items-center justify-center bg-slate-900 h-32 p-0'>
           <span 
             // className="text-3xl text-slate-800 font-medium before:content-['\00AF\005C\005F\0028\30C4\0029\005F\002F\00AF']"
-            className="text-3xl text-slate-700 font-medium before:content-['\2510\0028\FFE3\03C9\FFE3\003B\0020\0029\250C']"
+            className="text-3xl text-slate-700 font-medium before:content-['┐(￣ω￣;_)┌']"
           ></span>
           <span
             className="text-slate-700 font-medium before:content-['No_anime_found.']"

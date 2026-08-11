@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./index.html",
     "./src/**/*.{html,js,jsx}",
-    ".public/index.html",
   ],
   theme: {
     extend: {
@@ -12,5 +12,3 @@ module.exports = {
     },
   },
 }
-
-// npx tailwindcss -i .src\input.css -o .\src\App.css --watch
